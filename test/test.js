@@ -8,40 +8,40 @@ var Utils = {
 describe("Utils", function () {
 	describe("getType", function () {
 		it("should be boolean", function () {
-			assert.equal(Utils.getType(true), "Boolean");
+			assert.equal(Utils.getType(true), "boolean");
 		});
 		it("should be boolean", function () {
-			assert.equal(Utils.getType(false), "Boolean");
+			assert.equal(Utils.getType(false), "boolean");
 		});
 		it("should be integer", function () {
-			assert.equal(Utils.getType(0), "Integer");
+			assert.equal(Utils.getType(0), "number");
 		});
 		it("should be integer", function () {
-			assert.equal(Utils.getType(1), "Integer");
+			assert.equal(Utils.getType(1), "number");
 		});
 		it("should be float", function () {
-			assert.equal(Utils.getType(1.23), "Float");
+			assert.equal(Utils.getType(1.23), "number");
 		});
 		it("should be integer", function () {
-			assert.equal(Utils.getType(-1), "Integer");
+			assert.equal(Utils.getType(-1), "number");
 		});
 		it("should be float", function () {
-			assert.equal(Utils.getType(-1.23), "Float");
+			assert.equal(Utils.getType(-1.23), "number");
 		});
 		it("should be string", function () {
-			assert.equal(Utils.getType('0'), "String");
+			assert.equal(Utils.getType('0'), "string");
 		});
 		it("should be string", function () {
-			assert.equal(Utils.getType('dumb'), "String");
+			assert.equal(Utils.getType('dumb'), "string");
 		});
 		it("should be array", function () {
-			assert.equal(Utils.getType([]), "Array");
+			assert.equal(Utils.getType([]), "array");
 		});
 		it("should be object", function () {
-			assert.equal(Utils.getType({}), "Object");
+			assert.equal(Utils.getType({}), "object");
 		});
 		it("should be Function", function () {
-			assert.equal(Utils.getType(function(){}), "Function");
+			assert.equal(Utils.getType(function(){}), "function");
 		});
 		it("should be someFunction", function () {
 			assert.equal(Utils.getType(function someFunction(){}), "someFunction");
@@ -62,13 +62,13 @@ describe("Utils", function () {
 			assert.equal(Utils.getType(someFunction), "someFunction");
 		});
 		it("should be Null", function () {
-			assert.equal(Utils.getType(null), "Null");
+			assert.equal(Utils.getType(null), "null");
 		});
 		it("should be Undefined", function () {
-			assert.equal(Utils.getType(undefined), "Undefined");
+			assert.equal(Utils.getType(undefined), "undefined");
 		});
 		it("should be Float", function () {
-			assert.equal(Utils.getType(Infinity), "Float");
+			assert.equal(Utils.getType(Infinity), "float");
 		});
 	});
 });
