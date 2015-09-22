@@ -34,7 +34,7 @@ describe("getType", function () {
 	it("should be string", function () {
 		assert.equal(Utils.getType('dumb'), "string");
 	});
-	it("should be array", function () {
+	/*it("should be array", function () {
 		assert.equal(Utils.getType([]), "array");
 	});
 	it("should be object", function () {
@@ -69,5 +69,5 @@ describe("getType", function () {
 	});
 	it("should be Float", function () {
 		assert.equal(Utils.getType(Infinity), "float");
-	});
+	});*/
 });
