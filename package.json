@@ -1,33 +1,33 @@
 {
-	"name": "tests",
-	"version": "0.1.0",
-	"description": "tests only",
-	"main": "index.js",
-	"directories": {
-		"doc": "doc",
-		"test": "test"
-	},
-	"scripts": {
-		"test": "mocha test/test.js"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/ponury-kostek/tests.git"
-	},
-	"keywords": [
-		"test"
-	],
-	"author": "",
-	"license": "ISC",
-	"bugs": {
-		"url": "https://github.com/ponury-kostek/tests/issues"
-	},
-	"homepage": "https://github.com/ponury-kostek/tests#readme",
-	"devDependencies": {
-		"coveralls": "^2.11.4",
-		"mocha": "~2.3.3",
-		"mocha-lcov-reporter": "^1.0.0",
-		"istanbul": "~0.3.20",
-		"should": "~7.1.0"
-	}
+  "name": "tests",
+  "version": "0.1.0",
+  "description": "tests only",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ponury-kostek/tests.git"
+  },
+  "keywords": [
+    "test"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ponury-kostek/tests/issues"
+  },
+  "homepage": "https://github.com/ponury-kostek/tests#readme",
+  "devDependencies": {
+    "coveralls": "^2.11.4",
+    "mocha": "~2.3.3",
+    "mocha-lcov-reporter": "^1.0.0",
+    "istanbul": "~0.3.20",
+    "should": "~7.1.0"
+  }
 }
