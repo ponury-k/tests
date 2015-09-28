@@ -24,5 +24,6 @@
   },
   "homepage": "https://github.com/ponury-kostek/tests#readme",
   "dependencies": {
+    "ws": "^0.8.0"
   }
 }
