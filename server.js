@@ -21,7 +21,7 @@ class Functions {
 		this.result = utils.microtime();
 	}
 
-	pong() {
+	ping() {
 		this.result = "pong";
 	}
 
@@ -49,7 +49,9 @@ class Functions {
 
 	add(value) {
 		collection.push(value);
-		this.result = collection.keys().splice(-1, 1);
+        let keys = Array.from(collection.keys());
+        console.log("keys", keys);
+        this.result = keys.splice(-1, 1);
 	}
 
 	delete(key) {
@@ -153,8 +155,8 @@ wss.on('connection', function (ws) {
 	console.log("count: " + wss.clients.length);
 	setInterval(function () {
         c++;
-		ws.send(JSON.stringify(_request(c, "pong", null, cb)));
-	}, 5000);
+        ws.send(JSON.stringify(_request(c, "ping", null, cb)));
+    }, 5000);
 
 	var rl = readline.createInterface({
 		input : process.stdin, output : process.stdout
@@ -166,7 +168,7 @@ wss.on('connection', function (ws) {
 				rl.question('Value: ', function (value) {
 					console.log('Value is ' + value);
 					c++;
-					ws.send(_request(c, method, value, cb));
+					ws.send(JSON.stringify(_request(c, method, value, cb)));
 				});
 			});
 		} else {
