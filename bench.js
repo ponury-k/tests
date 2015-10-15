@@ -1,21 +1,34 @@
 "use strict";
 var WebSocket = require('ws');
-
+var c = 0;
 (function () {
-	let ws = new WebSocket('wss://localhost:8080/');
+	let ws = new WebSocket('ws://192.168.0.226:8080/');
 
 	ws.on('open', function open() {
-		ws.send('something');
+		for(let i = 0; i < 10000; i++) {
+			ws.send('.');
+		}
 	});
 
 	ws.on('error', function (err) {
 		console.error(err);
 	});
 
-	ws.on('message', function (data, flags) {
-		// flags.binary will be set if a binary data is received.
-		// flags.masked will be set if the data was masked.
-		console.log(data);
+	ws.on('message', function (message, flag) {
+		let response = '';
+		if(message == 'ping') {
+			response = 'pong';
+		} else if(message == 'pong') {
+			response = 'ping';
+		} else response = message;
+
+		c++;
+
 	});
+
+	setInterval(function() {
+		console.log('Message count: ' + c);
+		c = 0;
+	}, 1000);
 
 })();

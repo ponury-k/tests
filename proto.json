@@ -1,0 +1,14 @@
+{
+	"id" : "rand",
+	"type" : "request|response",
+	"request" : {
+		"method" : "",
+		"args" : []
+	},
+	"response" : {
+		"time" : 123.123,
+		"status" : "ok|error",
+		"data" : {},
+		"error" : "message"
+	}
+}
