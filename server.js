@@ -91,10 +91,10 @@ wss.on('connection', function (ws) {
 
 	function _response(id, method, args) {
 		let f = new Functions(id);
-		if (typeof f[method] == "Function") {
+		if (typeof f[method] == "function") {
 			try {
 				f[method](args);
-				ws.send(f._response())
+				ws.send(JSON.stringify(f._response()));
 			} catch (e) {
 				ws.send(JSON.stringify({
 					"id" : id, "type" : "response", "response" : {
@@ -129,25 +129,32 @@ wss.on('connection', function (ws) {
 		};
 
 		if (message.type == "request") {
-			response = _response(message.id, message.method, message.args)
+			_response(message.id, message.request.method, message.request.args);
+            return;
 		} else if (message.type == "response") {
-			if (requests[message.id] === undefined) {
-				console.log("Response id undefined");
-			} else {
-				requests[message.id].cb(message);
-			}
+            if (requests[message.id] === undefined) {
+                console.log("Response id undefined");
+            } else if(message.response.status == "ok") {
+                requests[message.id].cb(message);
+            } else {
+                console.log("Request #" + message.id + " failed with message '" + message.error + "'");
+                console.log(message);
+            }
+            return;
 		} else {
 			console.log("Unknown message type");
 		}
 		ws.send(JSON.stringify(response));
 		//process.stdout.write('.');
-		c++;
+
 		console.log(message);
+        //process.exit();
 	});
 	console.log("count: " + wss.clients.length);
 	setInterval(function () {
-		ws.send(JSON.stringify(_request(++c, "pong", null, cb)));
-	}, 1000);
+        c++;
+		ws.send(JSON.stringify(_request(c, "pong", null, cb)));
+	}, 5000);
 
 	var rl = readline.createInterface({
 		input : process.stdin, output : process.stdout
