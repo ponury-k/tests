@@ -111,6 +111,11 @@ wss.on('connection', function (ws) {
 		}
 	}
 
+	ws.on("close", function (code, message) {
+		rl.close();
+		console.log(code, message);
+	});
+
 	ws.on('message', function (message, flag) {
 		try {
 			message = JSON.parse(message);
@@ -126,7 +131,7 @@ wss.on('connection', function (ws) {
 		if (message.type == "request") {
 			response = _response(message.id, message.method, message.args)
 		} else if (message.type == "response") {
-			if(requests[message.id] === undefined) {
+			if (requests[message.id] === undefined) {
 				console.log("Response id undefined");
 			} else {
 				requests[message.id].cb(message);
@@ -161,6 +166,7 @@ wss.on('connection', function (ws) {
 			console.log(line);
 		}
 	});
+	rl.prompt();
 
 });
 console.log("Server started");
