@@ -113,10 +113,7 @@ wss.on('connection', function (ws) {
 		}
 	}
 
-	ws.on("close", function (code, message) {
-		rl.close();
-		console.log(code, message);
-	});
+
 
 	ws.on('message', function (message, flag) {
 		try {
@@ -155,7 +152,8 @@ wss.on('connection', function (ws) {
 		//process.exit();
 	});
 	console.log("count: " + wss.clients.length);
-	setInterval(function () {
+	console.log(wss.clients);
+	let pinger = setInterval(function () {
 		c++;
 		try {
 			ws.send(JSON.stringify(_request(c, "ping", null, cb)));
@@ -163,6 +161,12 @@ wss.on('connection', function (ws) {
 			console.log(e.message);
 		}
 	}, 5000);
+
+	ws.on("close", function (code, message) {
+		clearInterval(pinger);
+		rl.close();
+		console.log(code, message);
+	});
 
 	var rl = readline.createInterface({
 		input : process.stdin, output : process.stdout
@@ -185,4 +189,4 @@ wss.on('connection', function (ws) {
 
 });
 console.log("Server started");
-
+console.log(wss);
