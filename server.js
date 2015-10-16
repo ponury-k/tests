@@ -1,8 +1,8 @@
 "use strict";
+var blessed = request('blessed');
 var utils = require('@ponury/utils');
 var c = 0;
 var collection = [];
-var readline = require('readline');
 var requests = [];
 
 function cb(response) {
@@ -168,25 +168,4 @@ wss.on('connection', function (ws) {
 		console.log(code, message);
 	});
 
-	var rl = readline.createInterface({
-		input : process.stdin, output : process.stdout
-	});
-	rl.on("line", function (line) {
-		if (line == "request") {
-			rl.question('Method: ', function (method) {
-				console.log('Method is ' + method);
-				rl.question('Value: ', function (value) {
-					console.log('Value is ' + value);
-					c++;
-					ws.send(JSON.stringify(_request(c, method, value, cb)));
-				});
-			});
-		} else {
-			console.log(line);
-		}
-	});
-	rl.prompt();
-
 });
-console.log("Server started");
-console.log(wss);
