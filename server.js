@@ -70,11 +70,21 @@ class Functions {
 	}
 
 	_response() {
-		return {
-			"id" : this.id, "type" : "response", "response" : {
-				"status" : "ok", "time" : utils.microtime() - this.start, "data" : this.result
-			}
-		};
+		var that = this;
+		return new Promise(function (resolve, reject) {
+			let start = utils.microtime();
+			setTimeout(function () {
+				resolve({
+					"id" : that.id,
+					"type" : "response",
+					"response" : {
+						"status" : "ok",
+						"time" : utils.microtime() - start,
+						"data" : that.result
+					}
+				});
+			}, Math.round(Math.random() * 1000));
+		});
 	}
 }
 
@@ -83,11 +93,17 @@ wss.on('connection', function (ws) {
 
 	function _request(id, method, args, cb) {
 		let request = {
-			"id" : id, "type" : "request", "request" : {
-				"method" : method, "args" : args
+			"id" : id,
+			"type" : "request",
+			"request" : {
+				"method" : method,
+				"args" : args
 			}
 		};
-		requests[id] = {"request" : request, "cb" : cb};
+		requests[id] = {
+			"request" : request,
+			"cb" : cb
+		};
 		return request;
 	}
 
@@ -96,24 +112,36 @@ wss.on('connection', function (ws) {
 		if (typeof f[method] == "function") {
 			try {
 				f[method](args);
-				ws.send(JSON.stringify(f._response()));
+				f._response().then(function (res) {
+					try {
+						ws.send(JSON.stringify(res));
+					} catch (e) {
+						console.log(e.message);
+					}
+				});
 			} catch (e) {
 				ws.send(JSON.stringify({
-					"id" : id, "type" : "response", "response" : {
-						"time" : utils.microtime() - f.start, "status" : "error", "error" : e.message
+					"id" : id,
+					"type" : "response",
+					"response" : {
+						"time" : utils.microtime() - f.start,
+						"status" : "error",
+						"error" : e.message
 					}
 				}));
 			}
 		} else {
 			ws.send(JSON.stringify({
-				"id" : id, "type" : "response", "response" : {
-					"time" : utils.microtime() - f.start, "status" : "error", "error" : "Call to undefined method!"
+				"id" : id,
+				"type" : "response",
+				"response" : {
+					"time" : utils.microtime() - f.start,
+					"status" : "error",
+					"error" : "Call to undefined method!"
 				}
 			}));
 		}
 	}
-
-
 
 	ws.on('message', function (message, flag) {
 		try {
@@ -122,8 +150,11 @@ wss.on('connection', function (ws) {
 
 		}
 		let response = {
-			"id" : message.id, "type" : "response", "response" : {
-				"status" : "error", "message" : "Something goes realy bad :("
+			"id" : message.id,
+			"type" : "response",
+			"response" : {
+				"status" : "error",
+				"message" : "Something goes realy bad :("
 			}
 		};
 
@@ -160,7 +191,7 @@ wss.on('connection', function (ws) {
 		} catch (e) {
 			console.log(e.message);
 		}
-	}, 5000);
+	}, 60000);
 
 	ws.on("close", function (code, message) {
 		clearInterval(pinger);
@@ -169,7 +200,8 @@ wss.on('connection', function (ws) {
 	});
 
 	var rl = readline.createInterface({
-		input : process.stdin, output : process.stdout
+		input : process.stdin,
+		output : process.stdout
 	});
 	rl.on("line", function (line) {
 		if (line == "request") {
