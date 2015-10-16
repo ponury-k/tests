@@ -166,7 +166,9 @@ rl.on("line", function (line) {
             rl.question('Value: ', function (value) {
                 console.log('Value is ' + value);
                 c++;
-                ws.send(JSON.stringify(_request(c, method, value, cb)));
+				let req = _request(c, method, value, cb);
+				console.log(JSON.stringify(req));
+                ws.send(JSON.stringify(req));
             });
         });
     } else {

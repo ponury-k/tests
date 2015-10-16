@@ -49,9 +49,9 @@ class Functions {
 
 	add(value) {
 		collection.push(value);
-        let keys = Array.from(collection.keys());
-        console.log("keys", keys);
-        this.result = keys.splice(-1, 1);
+		let keys = Array.from(collection.keys());
+		console.log("keys", keys);
+		this.result = keys.splice(-1, 1);
 	}
 
 	delete(key) {
@@ -131,32 +131,38 @@ wss.on('connection', function (ws) {
 		};
 
 		if (message.type == "request") {
+			console.log("Request");
+			console.log(message);
 			_response(message.id, message.request.method, message.request.args);
-            return;
+			return;
 		} else if (message.type == "response") {
-            if (requests[message.id] === undefined) {
-                console.log("Response id undefined");
-            } else if(message.response.status == "ok") {
-                requests[message.id].cb(message);
-            } else {
-                console.log("Request #" + message.id + " failed with message '" + message.error + "'");
-                console.log(message);
-            }
-            return;
+			console.log("Response");
+			if (requests[message.id] === undefined) {
+				console.log("Response id undefined");
+			} else if (message.response.status == "ok") {
+				requests[message.id].cb(message);
+			} else {
+				console.log("Request #" + message.id + " failed with message '" + message.error + "'");
+				console.log(message);
+			}
+			return;
 		} else {
+			console.log(message, message.type);
 			console.log("Unknown message type");
 		}
 		ws.send(JSON.stringify(response));
 		//process.stdout.write('.');
-
-		console.log(message);
-        //process.exit();
+		//process.exit();
 	});
 	console.log("count: " + wss.clients.length);
 	setInterval(function () {
-        c++;
-        ws.send(JSON.stringify(_request(c, "ping", null, cb)));
-    }, 5000);
+		c++;
+		try {
+			ws.send(JSON.stringify(_request(c, "ping", null, cb)));
+		} catch (e) {
+			console.log(e.message);
+		}
+	}, 5000);
 
 	var rl = readline.createInterface({
 		input : process.stdin, output : process.stdout
