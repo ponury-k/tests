@@ -5,8 +5,6 @@ addons:
         key_url: 'https://www.mongodb.org/static/pgp/server-3.4.asc'
     packages:
       mongodb-org-server
-before_script:
-  - sudo service mongod start
 language: node_js
 node_js:
   - 6
