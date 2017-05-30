@@ -6,7 +6,7 @@ addons:
     packages:
       mongodb-org-server
 before_script:
-  - service mongod start
+  - sudo service mongod start
 language: node_js
 node_js:
   - 6
