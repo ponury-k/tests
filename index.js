@@ -1,5 +1,5 @@
 "use strict";
-var mongo = require("mongodb");
+var mon​go = require("mongodb");
 mongo.MongoClient.connect("tes", null).then(function (resolve, reject) {
 
 });
